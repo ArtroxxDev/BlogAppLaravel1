@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -42,4 +43,20 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    //Definimos la relacion one to one entre user y profile
+
+    public function profile() {
+        return $this->hasOne(Profile::class);
+    }
+
+    //Relacion uno a muchos entre user y articles, para ello usamos "hasMany"
+    public function articles(){
+        return $this->hasMany(Article::class);
+    }
+
+    //Relacion uno a muchos entre user y comment
+    public function comments(){
+        return $this->hasMany(Comment::class);
+    }
 }
