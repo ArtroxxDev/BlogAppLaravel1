@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        //php artisan migrate:fresh -seed
+        //php artisan migrate:fresh --seed
         $this->call(UserSeeder::class);
     }
 }
