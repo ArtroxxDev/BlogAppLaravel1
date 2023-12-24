@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('articles', function (Blueprint $table) {
             $table->id();
+            $table->string('title', 255);
+            $table->string('slug', 255)->unique();
+            /**
+             * 24/12/2023
+             * Se hace un rollback para corregir las columnas de la tabla ya que se habia hecho una migracion sin
+             * haber agregado las columnas de title y slug, se implementan en esta nueva migracion
+             */
             $table->string('introduction', 255);
             $table->string('image', 255);
             $table->text('body');
@@ -33,7 +40,7 @@ return new class extends Migration
                 ->onDelete('cascade');
 
             $table->timestamps();
-            
+
         });
     }
 
