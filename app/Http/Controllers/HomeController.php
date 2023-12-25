@@ -38,7 +38,7 @@ class HomeController extends Controller
 
         //el compact en la view de home envia los resultados de las querys realizadas arriba a la home para renderizarlas
 
-        return view('home', compact('articles', 'navbar'));
+        return view('home.index', compact('articles', 'navbar'));
         //return view('index');
     }
 
