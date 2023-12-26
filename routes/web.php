@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Auth;
 //      Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 //  });
 
-Auth::routes();
+
 
 //Principal routes
 Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -41,9 +41,19 @@ Route::get('/all', [HomeController::class, 'all'])->name('home.all');
 //Routes refactorizadas de articles con la funcion de laravel de resource
 
 Route::resource('articles', ArticleController::class)
+        ->except('show')
         ->names('articles');
 
 //Routes de categories con la funcion resource
 Route::resource('categories', CategoryController::class)
         ->except('show') //indicamos que cree las rutas para todos los metodos menos para el show
         ->names('categories');
+
+//ver articulos por categorias
+Route::get('category/{category}', CategoryController::class, 'detail')->name('categories.detail');
+
+//ver articulos
+Route::get('article/{article}', ArticleController::class, 'show')->name('articles.show');
+
+
+Auth::routes();

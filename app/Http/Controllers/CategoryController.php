@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CategoryRequest;
+use App\Models\Article;
 use App\Models\Category;
 use File;
 use Illuminate\Http\Request;
@@ -90,6 +91,35 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
+        //Funcion para eliminar imagen de la categoria
+        if($category->image){
+            //si la categoria posee imagen, eliminar
+            File::delete(public_path('storage/' . $category->image));
+        }
+
+        //luego de eliminar la imagen si es que esta existe, eliminar
+        $category->delete();
+
+        //luego de eliminar la categoria, redirigir al index con un mensaje
+        return redirect()->action([CategoryController::class, 'index'], compact('category'))
+                ->with('success-delete', 'Categoria eliminada con exitos');
+    }
+
+    //funcion para filtrar por categoria
+    public function detail(Category $category){
         //
+        $articles = Article::where([
+            ['category_id', $category->id], //este select es como: select * where category_id = id ingresado
+            ['status', '1']// similar al anterior pero filtra el status que sea igual a true
+        ])
+        ->orderBy('id', 'desc')
+        ->simplePaginate(5);
+
+        $navbar = Category::where([
+            ['status', '1'],
+            ['is_featured', '1']
+        ])->paginate(3);
+
+        return view('subscriber.categories.detail', compact('category', 'articles', 'navbar'));
     }
 }
