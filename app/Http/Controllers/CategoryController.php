@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
+use File;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -58,15 +59,30 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('admin.categories.edit', compact('category'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Category $category)
+    public function update(CategoryRequest $request, Category $category)
     {
-        //
+        //si el usuario sube una imagen eliminar la anterior y almacenar la nueva
+        if($request->hasFile('image')){
+            File::delete(public_path('storage/'). $category->image);
+            $category['image'] = $request->file('image')->store('categories');
+        }
+
+        //logica para actualizar los datos
+        $category->update([
+            'name' => $request->name,
+            'slug' => $request->slug,
+            'status' => $request->status,
+            'is_featured' => $request->is_featured
+        ]);
+
+        return redirect()->action([CategoryController::class, 'index'], compact('category'))
+                ->with('success-update', 'Categoria actualizada con exito');
     }
 
     /**

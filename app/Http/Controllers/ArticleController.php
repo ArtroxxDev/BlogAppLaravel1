@@ -89,7 +89,7 @@ class ArticleController extends Controller
         //Si el usuario sube una nueva imagen
         if ($request->hasFile('image')){
             //eliminar la anterior ya existente
-            File::delete(public_path('/storage'. $article->image));
+            File::delete(public_path('storage/'. $article->image));
             //y lo actualizamos con la nueva imagen
             $article['image'] = $request->file('image')->store('articles');
         }
