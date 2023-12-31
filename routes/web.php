@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
@@ -50,10 +51,20 @@ Route::resource('categories', CategoryController::class)
         ->names('categories');
 
 //ver articulos por categorias
-Route::get('category/{category}', CategoryController::class, 'detail')->name('categories.detail');
+Route::get('category/{category}', [CategoryController::class, 'detail'])->name('categories.detail');
+
+//Routes de comentarios
+Route::resource('comments', CommentController::class)
+        ->only('index', 'destroy') //El metodo de store lo haremos en otra url
+        ->names('comments');
+
+//metodo para la store de comentarios
+
+Route::get('/comment', [CommentController::class, 'store'])->name('comments.store');
+
 
 //ver articulos
-Route::get('article/{article}', ArticleController::class, 'show')->name('articles.show');
+Route::get('article/{article}', [ArticleController::class, 'show'])->name('articles.show');
 
 
 Auth::routes();
