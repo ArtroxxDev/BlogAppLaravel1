@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileRequest;
 use App\Models\Profile;
+use App\Models\Article;
 use Auth;
 use File;
 use Illuminate\Http\Request;
@@ -39,7 +40,11 @@ class ProfileController extends Controller
      */
     public function show(Profile $profile)
     {
-        //
+        //Actividad para completar el muestreo de info de perfil en el articulo
+        $articles = Article::where([['user_id', Auth::user()->id], ['status', '1']])
+            ->simplePaginate(8);
+
+        return view('subscriber.profiles.show', compact('profile', 'articles'));
     }
 
     /**
@@ -69,6 +74,11 @@ class ProfileController extends Controller
         //asignamos los nuevos datos
         $user->full_name = $request->full_name;
         $user->email = $request->email;
+        $user->profile->profession = $request->profession;
+        $user->profile->about = $request->about;
+        $user->profile->twitter = $request->twitter;
+        $user->profile->facebook = $request->facebook;
+        $user->profile->linkedin = $request->linkedin;
         $user->profile->photo = $photo;
         //los guardamos y actualizamos en la database
         $user->save();

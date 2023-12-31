@@ -24,7 +24,12 @@ class ProfileRequest extends FormRequest
         return [
             'full_name' => 'required',
             'email'     => 'required',
-            'photo'     => 'nullable|mimes:jpg, jpeg, png'
+            'photo'     => 'nullable|mimes:jpg, jpeg, png',
+            'profession'=> 'nullable|max: 60',
+            'about'     => 'nullable|max:255',
+            'twitter'   => 'nullable|url',
+            'facebook'  => 'nullable|url',
+            'linkedin'  => 'nullable|url'
         ];
     }
 }

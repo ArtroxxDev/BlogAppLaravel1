@@ -64,7 +64,7 @@ Route::get('/comment', [CommentController::class, 'store'])->name('comments.stor
 
 //ruta para profiles
 Route::resource('profiles', ProfileController::class)
-        ->only('edit', 'update')
+        ->only('edit', 'update', 'show')
         ->names('profiles');
 
 
