@@ -6,7 +6,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
-
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use PHPUnit\Framework\Attributes\Group;
 use Illuminate\Support\Facades\Auth;
@@ -61,6 +61,11 @@ Route::resource('comments', CommentController::class)
 //metodo para la store de comentarios
 
 Route::get('/comment', [CommentController::class, 'store'])->name('comments.store');
+
+//ruta para profiles
+Route::resource('profiles', ProfileController::class)
+        ->only('edit', 'update')
+        ->names('profiles');
 
 
 //ver articulos
