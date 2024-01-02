@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Auth;
 
 
 //Principal routes
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/all', [HomeController::class, 'all'])->name('home.all');
 
 /**
